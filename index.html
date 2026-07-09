@@ -372,10 +372,10 @@ ja: {
     </ul>`,
   booksH:"もっと深く知るための本",
   books:[
-    {tag:"TRADE-OFF / TOC", title:"ザ・ゴール ― 企業の究極の目的とは何か", desc:"エリヤフ・ゴールドラット著。制約理論(TOC)を小説形式で。トレードオフとボトルネックの考え方を物語で体感できる大定番。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
-    {tag:"QCDの源流", title:"トヨタ生産方式 ― 脱規模の経営をめざして", desc:"大野耐一著。QCD改善の原点。ムダ取り・ジャストインタイムの思想を、生みの親自身が語る古典。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
-    {tag:"納期と品質", title:"人月の神話", desc:"F・P・ブルックス Jr.著。「遅れているプロジェクトへの人員追加は、さらに遅らせる」。納期と品質のトレードオフを扱う不朽の名著。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
-    {tag:"リスク管理", title:"熊とワルツを ― リスクを愉しむプロジェクト管理", desc:"トム・デマルコ&ティモシー・リスター著。リスクと向き合わないプロジェクトは賭け事と同じ。本ツールのリスク表示を深掘りしたい方に。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
+    {tag:"TRADE-OFF / TOC", title:"ザ・ゴール ― 企業の究極の目的とは何か", desc:"エリヤフ・ゴールドラット著。制約理論(TOC)を小説形式で。トレードオフとボトルネックの考え方を物語で体感できる大定番。", link:"Amazonで見る →", url:"https://amzn.to/4wwfBtL"},
+    {tag:"QCDの源流", title:"トヨタ生産方式 ― 脱規模の経営をめざして", desc:"大野耐一著。QCD改善の原点。ムダ取り・ジャストインタイムの思想を、生みの親自身が語る古典。", link:"Amazonで見る →", url:"https://amzn.to/4bAkfii"},
+    {tag:"納期と品質", title:"人月の神話", desc:"F・P・ブルックス Jr.著。「遅れているプロジェクトへの人員追加は、さらに遅らせる」。納期と品質のトレードオフを扱う不朽の名著。", link:"Amazonで見る →", url:"https://amzn.to/4guw11g"},
+    {tag:"リスク管理", title:"熊とワルツを ― リスクを愉しむプロジェクト管理", desc:"トム・デマルコ&ティモシー・リスター著。リスクと向き合わないプロジェクトは賭け事と同じ。本ツールのリスク表示を深掘りしたい方に。", link:"Amazonで見る →", url:"https://amzn.to/44Znhc9"},
   ],
   toneBtn:"🔥 開発者モード",
   toneNote:"※ ジョークモードです。お客様への提示には標準モードをどうぞ。",
@@ -790,8 +790,8 @@ function buildBooks(){
     div.className = "book";
     div.innerHTML = `<span class="tag">${b.tag}</span>
       <h3>${b.title}</h3><p>${b.desc}</p>
-      <a href="#" rel="nofollow sponsored">${b.link}</a>
-      <p class="placeholder-note">${b.note}</p>`;
+      <a href="${b.url || "#"}" target="_blank" rel="noopener nofollow sponsored">${b.link}</a>
+      ${b.note ? `<p class="placeholder-note">${b.note}</p>` : ""}`;
     grid.appendChild(div);
   });
 }

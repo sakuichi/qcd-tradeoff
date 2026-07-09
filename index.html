@@ -269,6 +269,7 @@ footer a{color:var(--ink-soft)}
 </main>
 
 <footer>
+  <p id="footNote"></p>
   <p id="footDisclosure"></p>
   <p><a href="privacy.html" id="footPrivacy"></a></p>
   <p>© 2026 QCD Trade-off Simulator</p>
@@ -371,13 +372,16 @@ ja: {
     </ul>`,
   booksH:"もっと深く知るための本",
   books:[
-    {tag:"PROJECT MANAGEMENT", title:"【書籍タイトル枠 1】", desc:"QCD・プロジェクトマネジメントの定番書をここで紹介。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
-    {tag:"QUALITY MANAGEMENT", title:"【書籍タイトル枠 2】", desc:"品質管理・生産管理の入門書をここで紹介。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
+    {tag:"TRADE-OFF / TOC", title:"ザ・ゴール ― 企業の究極の目的とは何か", desc:"エリヤフ・ゴールドラット著。制約理論(TOC)を小説形式で。トレードオフとボトルネックの考え方を物語で体感できる大定番。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
+    {tag:"QCDの源流", title:"トヨタ生産方式 ― 脱規模の経営をめざして", desc:"大野耐一著。QCD改善の原点。ムダ取り・ジャストインタイムの思想を、生みの親自身が語る古典。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
+    {tag:"納期と品質", title:"人月の神話", desc:"F・P・ブルックス Jr.著。「遅れているプロジェクトへの人員追加は、さらに遅らせる」。納期と品質のトレードオフを扱う不朽の名著。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
+    {tag:"リスク管理", title:"熊とワルツを ― リスクを愉しむプロジェクト管理", desc:"トム・デマルコ&ティモシー・リスター著。リスクと向き合わないプロジェクトは賭け事と同じ。本ツールのリスク表示を深掘りしたい方に。", link:"Amazonで見る →", note:"※ amazon.co.jp アソシエイトリンク差し込み枠"},
   ],
   toneBtn:"🔥 開発者モード",
   toneNote:"※ ジョークモードです。お客様への提示には標準モードをどうぞ。",
+  footNote:"本サイトのシミュレーターおよびコンテンツは情報提供を目的としたものであり、特定のプロジェクトに関する助言を行うものではありません。詳細は免責事項をご覧ください。",
   footDisclosure:"Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。",
-  footPrivacy:"プライバシーポリシー",
+  footPrivacy:"プライバシーポリシー・免責事項",
 },
 en: {
   htmlLang:"en",
@@ -459,13 +463,16 @@ en: {
     </ul>`,
   booksH:"Recommended reading",
   books:[
-    {tag:"PROJECT MANAGEMENT", title:"[Book title placeholder 1]", desc:"A classic on QCD and project management goes here.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
-    {tag:"QUALITY MANAGEMENT", title:"[Book title placeholder 2]", desc:"An introduction to quality management goes here.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
+    {tag:"TRADE-OFF / TOC", title:"The Goal", desc:"Eliyahu M. Goldratt. A business novel on the Theory of Constraints — the classic on bottlenecks and trade-offs.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
+    {tag:"DELIVERY", title:"The Phoenix Project", desc:"Gene Kim, Kevin Behr & George Spafford. A novel about an IT project on fire — deadlines, quality and cost colliding in the most relatable way.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
+    {tag:"SCHEDULE & QUALITY", title:"The Mythical Man-Month", desc:"Frederick P. Brooks Jr. \"Adding manpower to a late software project makes it later.\" Timeless essays on schedule-quality trade-offs.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
+    {tag:"QUALITY / LEAN", title:"The Toyota Way", desc:"Jeffrey K. Liker. The management principles behind Toyota's quality and efficiency — where QCD thinking comes from.", link:"View on Amazon →", note:"* amazon.com affiliate link placeholder"},
   ],
   toneBtn:"🔥 Developer mode",
   toneNote:"* Joke mode. Switch back to standard before client meetings.",
+  footNote:"The simulator and content on this site are provided for informational purposes only and do not constitute advice on any specific project. See the disclaimer for details.",
   footDisclosure:"As an Amazon Associate, this site earns from qualifying purchases.",
-  footPrivacy:"Privacy Policy",
+  footPrivacy:"Privacy Policy & Disclaimer",
 },
 };
 
@@ -809,6 +816,7 @@ function applyLang(lang){
   document.getElementById("booksH").textContent = t.booksH;
   document.getElementById("footDisclosure").textContent = t.footDisclosure;
   document.getElementById("footPrivacy").textContent = t.footPrivacy;
+  document.getElementById("footNote").textContent = t.footNote;
   const tb = document.getElementById("toneBtn");
   tb.textContent = I18N[LANG].toneBtn;
   tb.setAttribute("aria-pressed", TONE === "dev");

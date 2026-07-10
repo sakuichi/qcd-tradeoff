@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sakuichi.github.io/qcd-tradeoff/sitemap.xml

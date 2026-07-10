@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QCDトレードオフ・シミュレーター</title>
 <meta name="description" content="品質(Q)・コスト(C)・納期(D)のトレードオフを、ドラッグ操作で体感できるシミュレーター。優先順位の対話に。">
+<link rel="canonical" href="https://sakuichi.github.io/qcd-tradeoff/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sakuichi.github.io/qcd-tradeoff/">
+<meta property="og:title" content="QCDトレードオフ・シミュレーター | QCD Trade-off Simulator">
+<meta property="og:description" content="品質・コスト・納期のトレードオフを見える形に。Visualize the quality-cost-delivery trade-off.">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -169,6 +175,27 @@ svg{width:100%;max-width:440px;height:auto;touch-action:none;user-select:none}
 .btn:hover{transform:translateY(-1px)}
 @media(prefers-reduced-motion:reduce){.btn:hover{transform:none}}
 
+/* ---- share ---- */
+.share{
+  margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.share-label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.15em;color:var(--ink-soft)}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap}
+.share-btn{
+  font-family:inherit;font-size:12.5px;font-weight:500;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.share-btn:hover{border-color:var(--ink)}
+.share-btn.copied{background:var(--q);border-color:var(--q);color:#fff}
+.share-ico{
+  width:18px;height:18px;border-radius:50%;flex:none;
+  color:#fff;font-family:"IBM Plex Mono",monospace;
+  font-size:9.5px;font-weight:700;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+
 /* ---- content sections ---- */
 section.text{margin-top:44px}
 h2{font-size:19px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
@@ -258,6 +285,11 @@ footer a{color:var(--ink-soft)}
     <button class="btn" id="scenarioBtn"></button>
   </div>
 </section>
+
+<div class="share">
+  <span class="share-label" id="shareLabel"></span>
+  <div class="share-btns" id="shareBtns"></div>
+</div>
 
 <section class="text" id="secQcd"></section>
 <section class="text" id="secLock"></section>
@@ -380,6 +412,11 @@ ja: {
   toneBtn:"🔥 開発者モード",
   toneNote:"※ ジョークモードです。お客様への提示には標準モードをどうぞ。",
   footNote:"本サイトのシミュレーターおよびコンテンツは情報提供を目的としたものであり、特定のプロジェクトに関する助言を行うものではありません。詳細は免責事項をご覧ください。",
+  shareLabel:"SHARE",
+  shareText:"QCDトレードオフ・シミュレーター | 品質・コスト・納期のバランスを見える化",
+  shareHashtags:"QCDトレードオフシミュレーター",
+  copyBtn:"URLをコピー", copiedMsg:"コピーしました!",
+  networks:["x","hatena","facebook"],
   footDisclosure:"Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。",
   footPrivacy:"プライバシーポリシー・免責事項",
 },
@@ -471,6 +508,11 @@ en: {
   toneBtn:"🔥 Developer mode",
   toneNote:"* Joke mode. Switch back to standard before client meetings.",
   footNote:"The simulator and content on this site are provided for informational purposes only and do not constitute advice on any specific project. See the disclaimer for details.",
+  shareLabel:"SHARE",
+  shareText:"QCD Trade-off Simulator — visualize the quality-cost-delivery trade-off",
+  shareHashtags:"QCDTradeoffSimulator",
+  copyBtn:"Copy URL", copiedMsg:"Copied!",
+  networks:["x","linkedin","facebook"],
   footDisclosure:"As an Amazon Associate, this site earns from qualifying purchases.",
   footPrivacy:"Privacy Policy & Disclaimer",
 },
@@ -781,6 +823,72 @@ function buildControls(){
   });
 }
 
+/* ================= シェア ================= */
+const SHARE_URL = "https://sakuichi.github.io/qcd-tradeoff/";
+const enc = encodeURIComponent;
+const NETWORKS = {
+  x:        {label:"X",        glyph:"X",  bg:"#000000", url:t=>`https://twitter.com/intent/tweet?text=${enc(t.shareText)}&url=${enc(SHARE_URL)}&hashtags=${enc(t.shareHashtags)}`},
+  hatena:   {label:"はてブ",    glyph:"B!", bg:"#00A4DE", url:()=>`https://b.hatena.ne.jp/entry/panel/?url=${enc(SHARE_URL)}`},
+  facebook: {label:"Facebook", glyph:"f",  bg:"#1877F2", url:()=>`https://www.facebook.com/sharer/sharer.php?u=${enc(SHARE_URL)}`},
+  linkedin: {label:"LinkedIn", glyph:"in", bg:"#0A66C2", url:()=>`https://www.linkedin.com/sharing/share-offsite/?url=${enc(SHARE_URL)}`},
+};
+const makeIco = (glyph, bg) => {
+  const s = document.createElement("span");
+  s.className = "share-ico";
+  s.style.background = bg;
+  s.textContent = glyph;
+  s.setAttribute("aria-hidden", "true");
+  return s;
+};
+
+function buildShare(){
+  const t = I18N[LANG];
+  document.getElementById("shareLabel").textContent = t.shareLabel;
+  const box = document.getElementById("shareBtns");
+  box.innerHTML = "";
+  t.networks.forEach(key => {
+    const n = NETWORKS[key];
+    const a = document.createElement("a");
+    a.className = "share-btn";
+    a.appendChild(makeIco(n.glyph, n.bg));
+    a.appendChild(document.createTextNode(n.label));
+    a.href = n.url(t);
+    a.target = "_blank";
+    a.rel = "noopener";
+    box.appendChild(a);
+  });
+  const copy = document.createElement("button");
+  copy.className = "share-btn";
+  copy.type = "button";
+  const copyLabel = document.createElement("span");
+  copy.appendChild(makeIco("⧉", "#5C6B68"));
+  copyLabel.textContent = t.copyBtn;
+  copy.appendChild(copyLabel);
+  copy.addEventListener("click", async () => {
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(SHARE_URL);
+      ok = true;
+    } catch (e) {
+      const ta = document.createElement("textarea");   // 非HTTPS等のフォールバック
+      ta.value = SHARE_URL;
+      document.body.appendChild(ta);
+      ta.select();
+      try { ok = document.execCommand("copy"); } catch (e2) {}
+      ta.remove();
+    }
+    if (ok) {
+      copyLabel.textContent = t.copiedMsg;
+      copy.classList.add("copied");
+      setTimeout(() => {
+        copyLabel.textContent = t.copyBtn;
+        copy.classList.remove("copied");
+      }, 1600);
+    }
+  });
+  box.appendChild(copy);
+}
+
 /* ================= 言語適用 ================= */
 function buildBooks(){
   const grid = document.getElementById("booksGrid");
@@ -825,6 +933,7 @@ function applyLang(lang){
   tn.hidden = TONE !== "dev";
   if (zeroTickEl) zeroTickEl.textContent = t.zeroTick;
   buildBooks();
+  buildShare();
 
   AXES.forEach(a => {
     const ta = t.axes[a.key];
